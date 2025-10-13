@@ -54,12 +54,12 @@ benchmark:
 			cd /workspace/vllm && \
 			pip install -q datasets && \
 			vllm bench serve \
-				--model "$$${MODEL_NAME}" \
+				--model "$${MODEL_NAME}" \
 				--dataset-name random \
 				--num-prompts 1000 \
 				--random-input-len=1800 \
 				--random-output-len=128 \
-				--seed=$$${SEED} \
+				--seed=$${SEED} \
 		'
 
 clean:

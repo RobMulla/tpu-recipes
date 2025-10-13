@@ -48,6 +48,7 @@ benchmark:
 	@echo "Running multi-modal benchmark inside the container..."
 	@sudo docker exec -it \
 		-e MODEL_NAME=$(shell grep '^MODEL_NAME=' .env | cut -d= -f2) \
+		-e SEED=$(shell grep '^SEED=' .env | cut -d= -f2) \
 		$(shell sudo docker compose ps -q vllm) \
 		bash -c ' \
 			cd /workspace/vllm && \
@@ -61,7 +62,8 @@ benchmark:
 				--random-mm-bucket-config "{(736, 736, 1): 1.0}" \
 				--random-mm-base-items-per-request 6 \
 				--random-mm-num-mm-items-range-ratio 0.67 \
-				--random-mm-limit-mm-per-prompt '"'"'{"image": 10, "video": 0}'"'"' \
+				--random-mm-limit-mm-per-prompt "{\"image\": 10, \"video\": 0}" \
+				--seed=$${SEED} \
 		' 
 
 clean:
